@@ -1,32 +1,39 @@
 import Link from "next/link";
 import Button from "../common/Button";
+import { usePathname } from "next/navigation";
+import { RootState } from "@/store/store";
+import { useSelector } from "react-redux";
 
 const Header: React.FC = () => {
+
+  const pathname = usePathname()
+  const count = useSelector((state: RootState) => state.counter.value)
+
   return (
-    <header className="bg-white shadow-md py-4">
-      <div className="container mx-auto flex justify-between items-center px-4">
-        <Link href="/" className="text-2xl font-bold text-blue-600">
+    <header className="fixed w-full bg-white shadow-md">
+      <div className="container mx-auto flex justify-between items-center py-6 px-4 md:px-8">
+        <Link href="/" className="text-3xl md:text-5xl font-bold text-gray-800 tracking-tight">
           Splash App
         </Link>
-        
-        <nav className="hidden md:flex space-x-6">
-          <Link href="/" className="text-gray-700 hover:text-blue-600">
-            Home
-          </Link>
-          <Link href="/about" className="text-gray-700 hover:text-blue-600">
-            About
-          </Link>
-          <Link href="/posts" className="text-gray-700 hover:text-blue-600">
-            Posts
-          </Link>
-          <Link href="/users" className="text-gray-700 hover:text-blue-600">
-            Users
-          </Link>
-        </nav>
 
-        <div className="flex space-x-2">
-          <Button title="Sign In" size="small" />
-          <Button title="Sign Up" size="small" />
+        {/* Button Group */}
+        <div className="flex gap-4">
+          {
+            !["/counter-app"].includes(pathname) ? (
+              <>
+              <Button
+            buttonLabel="Sign In"
+            buttonBackgroundColor="red"
+          />
+          <Button
+            buttonLabel="Sign Up"
+            buttonBackgroundColor="blue"
+          /></>
+            ) : (
+              <p className=" font-semibold text-lg">Current count : {count}</p>
+            )
+          }
+
         </div>
       </div>
     </header>
